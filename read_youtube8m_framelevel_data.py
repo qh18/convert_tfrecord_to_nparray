@@ -29,24 +29,14 @@ def qh_resize_axis(feats, value=0, dim=300):
     dim0, dim1 = feats.shape
     temp_b = np.zeros((dim-dim0, dim1))
     feats = np.concatenate((feats,temp_b),axis=0)
-    #pdb.set_trace()
-    #feats_zeropadding = feats.view('float32')
     return feats
     
-
-
-
-
 def main():
-
   file_path = 'your_data_path/' + '*.tfrecord'
   max_quantized_value = 2
   min_quantized_value = -2
 
-  pdb.set_trace()
-
   reader = tf.TFRecordReader
-  #data_sources = ["trainZ6.tfrecord"]
   data_sources = file_path
   _, data = parallel_reader.parallel_read(
       data_sources,
@@ -92,8 +82,7 @@ def main():
         img_feas = np.vstack(img_feas)
         img_feas = Dequantize(img_feas,max_quantized_value, min_quantized_value)
         img_feas = qh_resize_axis(img_feas, 0, 300) # zero padding
-
-            
+ 
         aud_feas = []
         for ii in range(len(ad3_fea)):
             v = np.fromstring(ad3_fea[ii], dtype=np.uint8)
@@ -106,11 +95,8 @@ def main():
         av_feats = np.concatenate((img_feas,aud_feas), axis=1)
         temp_dict = {"vid": vid, "label": labels_boolean, "va_1024_128_300d": av_feats}
         total_av_feas.append(temp_dict)
-
         print vid
-        pdb.set_trace()
-        #print(frame_feas.shape)
-        # Do something here
+        
     except tf.errors.OutOfRangeError:
       print('Finished extracting.')
     finally:
@@ -118,12 +104,9 @@ def main():
       N = 2000
       if (L > N):
           new_filename = 'your_output_path/yt8m_framelevel' + str(index) + '.pgz'
-          #new_filename = '/vol/vssp/msos/qh/data/yt8m_temp/yt8m_test_' + str(index) + '.pgz'
-              ##with gzip.GzipFile('youtube8m_videolevel.pgz','wb') as fp:
           with gzip.GzipFile(new_filename, 'wb') as fp:
               pickle.dump(total_feas[:N], fp)
           fp.close()
-          iiii = 0
           total_av_feas = total_av_feas[N:L]
           index = index + 1
           
