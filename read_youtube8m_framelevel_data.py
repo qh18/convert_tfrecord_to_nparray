@@ -1,3 +1,8 @@
+#----------------------------------------------------------------------#
+# This code is an example to recad Youtube-8m frame-level data,
+# convert them into np-array format, and save them in gzip format  
+#
+
 import tensorflow as tf
 from tensorflow.python.ops import parsing_ops
 from tensorflow.contrib.slim.python.slim.data import parallel_reader
