@@ -1,1 +1,2 @@
-# The code is to convert data in tfrecord format to nparray. It can be used to process some datasets, such as Youtube-8m and Audioset. 
+The code can read data in tfrecord format parallely and convert them into nparray. 
+It can be used to process some datasets, such as Youtube-8m and Audioset. 
