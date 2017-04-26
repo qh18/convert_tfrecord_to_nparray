@@ -40,6 +40,7 @@ def main():
   file_path = 'your_data_path/' + '*.tfrecord'
   max_quantized_value = 2
   min_quantized_value = -2
+  index = 0
 
   reader = tf.TFRecordReader
   data_sources = file_path
