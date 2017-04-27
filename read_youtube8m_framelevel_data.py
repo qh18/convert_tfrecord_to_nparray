@@ -103,19 +103,19 @@ def main():
         total_av_feas.append(temp_dict)
         print vid
         
-    except tf.errors.OutOfRangeError:
-      print('Finished extracting.')
-    finally:
-      L = len(total_av_feas)
-      N = 2000
-      if (L > N):
+        L = len(total_av_feas)
+        N = 1000
+        if (L > N):
           new_filename = 'your_output_path/yt8m_framelevel' + str(index) + '.pgz'
           with gzip.GzipFile(new_filename, 'wb') as fp:
-              pickle.dump(total_feas[:N], fp)
+            pickle.dump(total_av_feas[:N], fp)
           fp.close()
           total_av_feas = total_av_feas[N:L]
           index = index + 1
-          
+        
+    except tf.errors.OutOfRangeError:
+      print('Finished extracting.')
+    finally:     
       coord.request_stop()
       coord.join(threads)
 
